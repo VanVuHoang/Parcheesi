@@ -21,12 +21,6 @@ public class Token : MonoBehaviour
         routePosition = -1;
     }
 
-    void OnMouseDown()
-    {
-        // Destroy the gameObject after clicking on it
-        Debug.Log("Mouse Down");
-    }
-
     // Update is called once per frame
     void Update()
     {
