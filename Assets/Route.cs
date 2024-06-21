@@ -9,9 +9,10 @@ public class Route : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.green;
 
         FillNodes();
+
+        Gizmos.color = Color.green;
 
         for (int i = 0; i < childNodeList.Count; i++)
         {

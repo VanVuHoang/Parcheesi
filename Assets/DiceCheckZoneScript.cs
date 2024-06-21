@@ -7,7 +7,7 @@ public class DiceCheckZoneScript : MonoBehaviour
     Vector3 diceVelocity;
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         diceVelocity = DiceScript.diceVelocity;
     }

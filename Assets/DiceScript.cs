@@ -15,20 +15,24 @@ public class DiceScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         diceVelocity = rb.velocity;
         diceRotation = rb.transform.rotation.eulerAngles.x + rb.transform.rotation.eulerAngles.y + rb.transform.rotation.eulerAngles.z;
+    }
+
+    void Update()
+    {
         if (Input.GetKeyDown(KeyCode. Space) && diceVelocity.x == 0f && diceVelocity.y == 0f && diceVelocity.z == 0f)
         { 
-            float dirX = Random.Range (600, 700); 
-            float dirY = Random.Range (600, 700); 
-            float dirZ = Random.Range (600, 700); 
-            transform.position = new Vector3 (0, 4, 0); 
+            float dirX = Random.Range(600, 700); 
+            float dirY = Random.Range(600, 700); 
+            float dirZ = Random.Range(600, 700); 
+            transform.position = new Vector3(0, 4, 0); 
             transform.rotation = Quaternion.identity; 
-            float force = Random.Range (600, 700); 
-            rb.AddForce (transform.up * force);
-            rb.AddTorque (dirX, dirY, dirZ);
+            float force = Random.Range(600, 700); 
+            rb.AddForce(transform.up * force);
+            rb.AddTorque(dirX, dirY, dirZ);
         }
     }
 }
