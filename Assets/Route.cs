@@ -6,14 +6,16 @@ public class Route : MonoBehaviour
 {
     Transform[] childObjects;
     public List<Transform> childNodeList = new List<Transform>();
+    public Color color = Color.white;
 
     void OnDrawGizmos()
     {
-
         FillNodes();
 
-        Gizmos.color = Color.green;
+        color.a = 0;
+        Gizmos.color = color;
 
+        // Position
         for (int i = 0; i < childNodeList.Count; i++)
         {
             Vector3 currentPos = childNodeList[i].position;
@@ -23,11 +25,27 @@ public class Route : MonoBehaviour
                 Gizmos.DrawLine(prevPos, currentPos);
             }
         }
+    }
 
+    void FillNodes()
+    {
+        childNodeList.Clear();
+        childObjects = GetComponentsInChildren<Transform>();
+        
+        // Node list
+        foreach(Transform child in childObjects)
+        {
+            if(child != this.transform)
+            {
+                childNodeList.Add(child);
+            }
+        }
+
+        // Token route
         switch (childNodeList.Count)
         {
-            case 4:
-                Token.childNodeCall = childNodeList;
+            case 8:
+                Token.childNodeSpawnCall = childNodeList;
                 break;
             case 24:
                 Token.childNodeGoal = childNodeList;
@@ -35,21 +53,6 @@ public class Route : MonoBehaviour
             case 56:
                 Token.childNodeList = childNodeList;
                 break;
-        }
-    }
-
-    void FillNodes()
-    {
-        childNodeList.Clear();
-
-        childObjects = GetComponentsInChildren<Transform>();
-
-        foreach(Transform child in childObjects)
-        {
-            if(child != this.transform)
-            {
-                childNodeList.Add(child);
-            }
         }
     }
 }
