@@ -44,7 +44,7 @@ public class Route : MonoBehaviour
         // Token route
         switch (childNodeList.Count)
         {
-            case 8:
+            case 20:
                 Token.childNodeSpawnCall = childNodeList;
                 break;
             case 24:
