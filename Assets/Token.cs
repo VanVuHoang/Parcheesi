@@ -82,7 +82,11 @@ public class Token : MonoBehaviour
         {
             index = 3;
         }
+    }
 
+    // Fixed update is called in intervals
+    void FixedUpdate()
+    {
         token = 4 * tokenIndex + index;
     }
 
@@ -242,8 +246,8 @@ public class Token : MonoBehaviour
         isMoving = false;
     }
 
-    bool MoveToNextNode(Vector3 goal, int index)
+    bool MoveToNextNode(Vector3 goal, int i)
     {
-        return goal != (tokenList[index * 2].position = Vector3.MoveTowards(tokenList[index * 2].position, goal, 1000f * Time.deltaTime));
+        return goal != (tokenList[i * 2].position = Vector3.MoveTowards(tokenList[i * 2].position, goal, 1000f * Time.deltaTime));
     }
 }
