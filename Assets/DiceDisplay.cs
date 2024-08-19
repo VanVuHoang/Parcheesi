@@ -9,11 +9,8 @@ public class DiceDisplay : MonoBehaviour
 {
     Vector3 diceVelocity;
     TMP_Text diceText;
-    public static int diceNumber1;
-    public static int diceNumber2;
-    int tokenIndex;
-    string token;
-    string diceUsage;
+    public static int diceNumber1; public static int diceNumber2;
+    int tokenIndex; string token; string diceUsage;
 
     // Start is called before the first frame update
     void Start()
@@ -46,11 +43,11 @@ public class DiceDisplay : MonoBehaviour
         diceUsage = "";
         if(Token.firstRolled == true)
         {
-            diceUsage += "\nDice #1 was used.";
+            diceUsage += "\nDice #1 is used.";
         }
         if(Token.secondRolled == true)
         {
-            diceUsage += "\nDice #2 was used.";
+            diceUsage += "\nDice #2 is used.";
         }
     }
 

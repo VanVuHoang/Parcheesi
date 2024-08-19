@@ -4,51 +4,40 @@ using UnityEngine;
 
 public class Token : MonoBehaviour
 {
-    Transform[] tokens;
+    Transform[] tokens; Renderer[] rends;
     bool isMoving;
-    public static bool firstRolled;
-    public static bool secondRolled;
+    public static bool firstRolled; public static bool secondRolled;
     public List<int> routePosition = new List<int>();  
-    public List<Transform> tokenList = new List<Transform>();
-    public static List<Transform> childNodeSpawnCall;
-    public static List<Transform> childNodeGoal;
-    public static List<Transform> childNodeList;
-    public static int diceNumber1;
-    public static int diceNumber2;
-    public static int tokenIndex;
-    public static int index;
-    int steps;
-    int token;
+    public List<Transform> tokenTransform = new List<Transform>();
+    public List<Renderer> tokenRenderer = new List<Renderer>();
+    public static List<Transform> childNodeSpawnCall; public static List<Transform> childNodeGoal; public static List<Transform> childNodeList;
+    public static int diceNumber1; public static int diceNumber2;
+    public static int tokenIndex; public static int index;
+    int steps; int token;
 
     // Start is called before the first frame update
     void Start() 
     {    
-        routePosition.Add(-1);
-        routePosition.Add(-1);
-        routePosition.Add(-1);
-        routePosition.Add(-1);
-
-        routePosition.Add(-2);
-        routePosition.Add(-2);
-        routePosition.Add(-2);
-        routePosition.Add(-2);
-
-        routePosition.Add(-3);
-        routePosition.Add(-3);
-        routePosition.Add(-3);
-        routePosition.Add(-3);
-
-        routePosition.Add(-4);
-        routePosition.Add(-4);
-        routePosition.Add(-4);
-        routePosition.Add(-4);
+        routePosition.Add(-1); routePosition.Add(-1); routePosition.Add(-1); routePosition.Add(-1);
+        routePosition.Add(-2); routePosition.Add(-2); routePosition.Add(-2); routePosition.Add(-2);
+        routePosition.Add(-3); routePosition.Add(-3); routePosition.Add(-3); routePosition.Add(-3);
+        routePosition.Add(-4); routePosition.Add(-4); routePosition.Add(-4); routePosition.Add(-4);
 
         tokens = GetComponentsInChildren<Transform>();
         foreach(Transform child in tokens)
         {
             if(child != this.transform)
             {
-                tokenList.Add(child);
+                tokenTransform.Add(child);
+            }
+        }
+
+        rends = GetComponentsInChildren<Renderer>();
+        foreach(Renderer child in rends)
+        {
+            if(child != this.GetComponent<Renderer>())
+            {
+                tokenRenderer.Add(child);
             }
         }
     }
@@ -56,6 +45,7 @@ public class Token : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Each dice can only be used once per turn
         if(Input.GetKeyDown(KeyCode.LeftShift) && !isMoving && !firstRolled)
         {
             StartCoroutine(Move(diceNumber1));
@@ -66,28 +56,23 @@ public class Token : MonoBehaviour
             StartCoroutine(Move(diceNumber2));
             if(steps > -1){secondRolled = true;}
         }
-        if(Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            index = 0;
-        }
-        if(Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            index = 1;
-        }
-        if(Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            index = 2;
-        }
-        if(Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            index = 3;
-        }
+        // Token choice
+        if(Input.GetKeyDown(KeyCode.Alpha1)){index = 0;}
+        if(Input.GetKeyDown(KeyCode.Alpha2)){index = 1;}
+        if(Input.GetKeyDown(KeyCode.Alpha3)){index = 2;}
+        if(Input.GetKeyDown(KeyCode.Alpha4)){index = 3;}
     }
 
     // Fixed update is called in intervals
     void FixedUpdate()
     {
         token = 4 * tokenIndex + index;
+        // Token highlight
+        tokenRenderer[0].material.color = Color.red; tokenRenderer[1].material.color = Color.red; tokenRenderer[2].material.color = Color.red; tokenRenderer[3].material.color = Color.red;
+        tokenRenderer[4].material.color = Color.green; tokenRenderer[5].material.color = Color.green; tokenRenderer[6].material.color = Color.green; tokenRenderer[7].material.color = Color.green;
+        tokenRenderer[8].material.color = Color.yellow; tokenRenderer[9].material.color = Color.yellow; tokenRenderer[10].material.color = Color.yellow; tokenRenderer[11].material.color = Color.yellow;
+        tokenRenderer[12].material.color = Color.blue; tokenRenderer[13].material.color = Color.blue; tokenRenderer[14].material.color = Color.blue; tokenRenderer[15].material.color = Color.blue;
+        tokenRenderer[token].material.color = Color.cyan;
     }
 
     IEnumerator Move(int diceValue)
@@ -148,13 +133,8 @@ public class Token : MonoBehaviour
                         Vector3 nextPos = childNodeSpawnCall[tokenIndex * 5 + 4].position;
                         while(MoveToNextNode(nextPos, token)){yield return null;}
                         yield return new WaitForSeconds(0.1f);
-                        steps = 0;
-                        routePosition[token] -= 4;
-                        if(diceValue < 5)
-                        {
-                            firstRolled = true;
-                            secondRolled = true;
-                        }
+                        steps = 0; routePosition[token] -= 4;
+                        if(diceValue < 5){firstRolled = true; secondRolled = true;}
                     }
                 }
                 if(steps > 0){steps = -1;}
@@ -188,8 +168,7 @@ public class Token : MonoBehaviour
                     }
                     while(MoveToNextNode(nextPos, token)){yield return null;}
                     yield return new WaitForSeconds(0.1f);
-                    steps--;
-                    routePosition[token]++;
+                    steps--; routePosition[token]++;
                 }
                 else
                 {
@@ -198,14 +177,12 @@ public class Token : MonoBehaviour
                         // Steps overflow on the home column
                         for (int i = steps; i >= 0; i--)
                         {
-                            steps--;
-                            routePosition[token]--;
+                            steps--; routePosition[token]--;
                             Vector3 nextPos = childNodeList[routePosition[token] - 56 * (int)(routePosition[token] / 56)].position;
                             while(MoveToNextNode(nextPos, token)){yield return null;}
                             yield return new WaitForSeconds(0.1f);
                         }
-                        steps++;
-                        routePosition[token]++;
+                        steps++; routePosition[token]++;
                     }
                     else
                     {
@@ -248,6 +225,6 @@ public class Token : MonoBehaviour
 
     bool MoveToNextNode(Vector3 goal, int i)
     {
-        return goal != (tokenList[i * 2].position = Vector3.MoveTowards(tokenList[i * 2].position, goal, 1000f * Time.deltaTime));
+        return goal != (tokenTransform[i * 2].position = Vector3.MoveTowards(tokenTransform[i * 2].position, goal, 1000f * Time.deltaTime));
     }
 }
