@@ -102,12 +102,12 @@ public class Token : MonoBehaviour
                     {
                         // Prevent bypass of token
                         if(c > b && a < b){steps = -1;} 
-                        // Prevent elimination of like-colored token
+                        // Prevent more than one like-colored token on a node
                         if(c == b && a < b && (int)(i / 4) == (int)(token / 4)){steps = -1;} 
                     }
                 }
             }
-            // No more than one like-colored token on standby
+            // Prevent more than one like-colored token being called
             else
             {
                 if(diceValue >= 5 || firstRolled == false && secondRolled == false)
@@ -186,11 +186,15 @@ public class Token : MonoBehaviour
                     }
                     else
                     {
-                        // Prevent token block
+                        // Prevent more than one like-colored token on a node
                         for (int i = 0; i < 16; i++)
                         {   
-                            if(routePosition[i] == routePosition[token] % 100 + 100 * diceValue){diceValue = (int)(routePosition[token] / 100); steps = -1;}
+                            for (int j = diceValue; j > (int)(routePosition[token] / 100); j--)
+                            {
+                                if(routePosition[i] == routePosition[token] % 100 + 100 * j){diceValue = (int)(routePosition[token] / 100); steps = -1;}
+                            }
                         }
+                        // Prevent backward movement
                         if(routePosition[token] < routePosition[token] % 100 + 100 * diceValue)
                         {
                             routePosition[token] = routePosition[token] % 100 + 100 * diceValue;
