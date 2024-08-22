@@ -67,7 +67,7 @@ public class Token : MonoBehaviour
     void FixedUpdate()
     {
         token = 4 * tokenIndex + index;
-        // Token highlight
+        // Highlight
         tokenRenderer[0].material.color = Color.red; tokenRenderer[1].material.color = Color.red; tokenRenderer[2].material.color = Color.red; tokenRenderer[3].material.color = Color.red;
         tokenRenderer[4].material.color = Color.green; tokenRenderer[5].material.color = Color.green; tokenRenderer[6].material.color = Color.green; tokenRenderer[7].material.color = Color.green;
         tokenRenderer[8].material.color = Color.yellow; tokenRenderer[9].material.color = Color.yellow; tokenRenderer[10].material.color = Color.yellow; tokenRenderer[11].material.color = Color.yellow;
@@ -80,7 +80,7 @@ public class Token : MonoBehaviour
         isMoving = true;
         steps = diceValue;
 
-        // Token prevention
+        // Prevention
         for (int i = 0; i < 16; i++)
         {   
             if(routePosition[token] >= 0 || routePosition[token] <= -5)
@@ -120,7 +120,7 @@ public class Token : MonoBehaviour
             }
         }
 
-        // Token movement
+        // Movement
         while(steps > 0)
         {
             // Token is not in play
@@ -208,11 +208,12 @@ public class Token : MonoBehaviour
             }
         }
 
-        // Token elimination
+        // Check elimination and victory
         if(steps == 0)
         {
             for (int i = 0; i < 16; i++)
             {    
+                // Elimination
                 int a = routePosition[token] - 56 * (int)(routePosition[token] / 56);
                 int b = routePosition[i] - 56 * (int)(routePosition[i] / 56);
                 if(a == b && i != token && routePosition[i] >= 0 && routePosition[i] < 156 && routePosition[token] >= 0 && routePosition[token] < 156)
@@ -222,8 +223,29 @@ public class Token : MonoBehaviour
                     yield return new WaitForSeconds(0.1f); 
                     routePosition[i] = -((int)(i / 4) + 1);
                 }
+                // Victory
+                if(routePosition[i] == 656 + 14 * (int)(i / 4))
+                {
+                    for (int j = 4 * (int)(i / 4); j < 4 * ((int)(i / 4) + 1); j++)
+                    {
+                        if(routePosition[j] == 556 + 14 * (int)(i / 4) && j != i)
+                        {
+                            for (int k = 4 * (int)(i / 4); k < 4 * ((int)(i / 4) + 1); k++)
+                            {
+                                if(routePosition[k] == 456 + 14 * (int)(i / 4) && k != j && k != i)
+                                {
+                                    if(routePosition[16 * (int)(i / 4) + 6 - i - j - k] == 356 + 14 * (int)(i / 4))
+                                    {
+                                        UnityEditor.EditorApplication.isPlaying = false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
+
         isMoving = false;
     }
 
