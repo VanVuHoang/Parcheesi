@@ -11,9 +11,7 @@ public class Route : MonoBehaviour
     void OnDrawGizmos()
     {
         FillNodes();
-
-        color.a = 0;
-        Gizmos.color = color;
+        color.a = 0; Gizmos.color = color;
 
         // Position
         for (int i = 0; i < childNodeList.Count; i++)
@@ -33,26 +31,14 @@ public class Route : MonoBehaviour
         childObjects = GetComponentsInChildren<Transform>();
         
         // Node list
-        foreach(Transform child in childObjects)
-        {
-            if(child != this.transform)
-            {
-                childNodeList.Add(child);
-            }
-        }
+        foreach(Transform child in childObjects){if(child != this.transform){childNodeList.Add(child);}}
 
         // Token route
         switch (childNodeList.Count)
         {
-            case 20:
-                Token.childNodeSpawnCall = childNodeList;
-                break;
-            case 24:
-                Token.childNodeGoal = childNodeList;
-                break;
-            case 56:
-                Token.childNodeList = childNodeList;
-                break;
+            case 20: Token.childNodeSpawnCall = childNodeList; break;
+            case 24: Token.childNodeGoal = childNodeList; break;
+            case 56: Token.childNodeList = childNodeList; break;
         }
     }
 }

@@ -24,22 +24,10 @@ public class Token : MonoBehaviour
         routePosition.Add(-4); routePosition.Add(-4); routePosition.Add(-4); routePosition.Add(-4);
 
         tokens = GetComponentsInChildren<Transform>();
-        foreach(Transform child in tokens)
-        {
-            if(child != this.transform)
-            {
-                tokenTransform.Add(child);
-            }
-        }
+        foreach(Transform child in tokens){if(child != this.transform){tokenTransform.Add(child);}}
 
         rends = GetComponentsInChildren<Renderer>();
-        foreach(Renderer child in rends)
-        {
-            if(child != this.GetComponent<Renderer>())
-            {
-                tokenRenderer.Add(child);
-            }
-        }
+        foreach(Renderer child in rends){if(child != this.GetComponent<Renderer>()){tokenRenderer.Add(child);}}
     }
 
     // Update is called once per frame
@@ -68,10 +56,14 @@ public class Token : MonoBehaviour
     {
         token = 4 * tokenIndex + index;
         // Highlight
-        tokenRenderer[0].material.color = Color.red; tokenRenderer[1].material.color = Color.red; tokenRenderer[2].material.color = Color.red; tokenRenderer[3].material.color = Color.red;
-        tokenRenderer[4].material.color = Color.green; tokenRenderer[5].material.color = Color.green; tokenRenderer[6].material.color = Color.green; tokenRenderer[7].material.color = Color.green;
-        tokenRenderer[8].material.color = Color.yellow; tokenRenderer[9].material.color = Color.yellow; tokenRenderer[10].material.color = Color.yellow; tokenRenderer[11].material.color = Color.yellow;
-        tokenRenderer[12].material.color = Color.blue; tokenRenderer[13].material.color = Color.blue; tokenRenderer[14].material.color = Color.blue; tokenRenderer[15].material.color = Color.blue;
+        tokenRenderer[0].material.color = Color.red; tokenRenderer[1].material.color = Color.red; 
+        tokenRenderer[2].material.color = Color.red; tokenRenderer[3].material.color = Color.red;
+        tokenRenderer[4].material.color = Color.green; tokenRenderer[5].material.color = Color.green; 
+        tokenRenderer[6].material.color = Color.green; tokenRenderer[7].material.color = Color.green;
+        tokenRenderer[8].material.color = Color.yellow; tokenRenderer[9].material.color = Color.yellow; 
+        tokenRenderer[10].material.color = Color.yellow; tokenRenderer[11].material.color = Color.yellow;
+        tokenRenderer[12].material.color = Color.blue; tokenRenderer[13].material.color = Color.blue; 
+        tokenRenderer[14].material.color = Color.blue; tokenRenderer[15].material.color = Color.blue;
         tokenRenderer[token].material.color = Color.cyan;
     }
 
@@ -202,6 +194,7 @@ public class Token : MonoBehaviour
                             while(MoveToNextNode(nextPos, token)){yield return null;}
                             yield return new WaitForSeconds(0.1f);
                         }
+                        else{steps = -1;}
                         if(steps > -1){steps = 0;}
                     }
                 }
@@ -234,10 +227,7 @@ public class Token : MonoBehaviour
                             {
                                 if(routePosition[k] == 456 + 14 * (int)(i / 4) && k != j && k != i)
                                 {
-                                    if(routePosition[16 * (int)(i / 4) + 6 - i - j - k] == 356 + 14 * (int)(i / 4))
-                                    {
-                                        UnityEditor.EditorApplication.isPlaying = false;
-                                    }
+                                    if(routePosition[16 * (int)(i / 4) + 6 - i - j - k] == 356 + 14 * (int)(i / 4)){UnityEditor.EditorApplication.isPlaying = false;}
                                 }
                             }
                         }

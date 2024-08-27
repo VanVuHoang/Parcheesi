@@ -33,12 +33,9 @@ public class DiceRoll : MonoBehaviour
             transform.position = new Vector3(0, 4, -30); 
             transform.rotation = Quaternion.identity; 
             float force = Random.Range(600, 700); 
-            rb.AddForce(transform.up * force);
-            rb.AddTorque(dirX, dirY, dirZ);
-            tokenIndex++;
-            Token.tokenIndex = (tokenIndex % 8) / 2;
-            Token.firstRolled = false;
-            Token.secondRolled = false;
+            rb.AddForce(transform.up * force); rb.AddTorque(dirX, dirY, dirZ);
+            tokenIndex++; Token.tokenIndex = (tokenIndex % 8) / 2;
+            Token.firstRolled = false; Token.secondRolled = false;
             if(DiceDisplay.diceNumber1 == DiceDisplay.diceNumber2){tokenIndex--;}
         }
     }
