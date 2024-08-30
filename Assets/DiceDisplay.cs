@@ -10,12 +10,12 @@ public class DiceDisplay : MonoBehaviour
     Vector3 diceVelocity;
     TMP_Text diceText;
     public static int diceNumber1; public static int diceNumber2;
-    int tokenIndex; string token; string txt; int num; public static int ber;
+    int tokenIndex; string token; public static string txt; int num; public static int ber;
 
     // Start is called before the first frame update
     void Start()
     {
-        num = ber; ber++;
+        txt = ""; num = ber; ber++;
         diceText = GetComponent<TMP_Text>();
     }
 
@@ -32,8 +32,8 @@ public class DiceDisplay : MonoBehaviour
             case 4: token = "Yellow"; break;
             case 6: token = "Blue"; break;
         }
-
-        txt = "Turn: " + (token).ToString();
+        if(txt.Contains("Winner") == true){txt = "Winner: " + (token).ToString();}
+        else{txt = "Turn: " + (token).ToString();}
         if(Token.firstRolled == true){txt += "\nDice #1 is used.";}
         if(Token.secondRolled == true){txt += "\nDice #2 is used.";}
     }
